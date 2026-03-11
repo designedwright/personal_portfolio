@@ -1,0 +1,828 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Centralized Variables */
+  /* Colors - Light Theme */
+  --bg-color: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #777777;
+  --text-disabled: #b0b0b0;
+  --bg-header: rgba(255, 255, 255, 0.95);
+  --border-color: #eaeaea;
+
+  /* Typography */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.85rem;
+  --font-size-base: 13px;
+  /* Smaller base for elegant aesthetic matching the image */
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.2rem;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2.5rem;
+  --space-xl: 2.25vw;
+  /* Responsive padding */
+
+  /* Layout */
+  --max-width: 1600px;
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-primary: #f2f2f2;
+  --text-secondary: #aaaaaa;
+  --text-disabled: #555555;
+  --bg-header: rgba(18, 18, 18, 0.95);
+  --border-color: #333333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  transition: opacity 0.5s ease-in-out, background-color var(--transition-medium), color var(--transition-medium);
+  min-height: 100vh;
+  opacity: 0;
+  /* JS will trigger fade-in */
+  -webkit-font-smoothing: antialiased;
+}
+
+body.page-loaded {
+  opacity: 1;
+}
+
+body.page-transitioning {
+  opacity: 0 !important;
+}
+
+/* Header Navigation */
+header.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: var(--space-xl) var(--space-xl) 0 var(--space-xl);
+  /* Nav spacing synced with main container grid */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+  z-index: 1000;
+  background: linear-gradient(to bottom, var(--bg-color) 0%, rgba(255, 255, 255, 0) 100%);
+  padding-bottom: 80px;
+  pointer-events: none;
+  font-size: var(--font-size-base);
+  transition: background var(--transition-medium);
+}
+
+[data-theme="dark"] header.top-nav {
+  background: linear-gradient(to bottom, var(--bg-color) 0%, rgba(18, 18, 18, 0) 100%);
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+  pointer-events: auto;
+  grid-row: 1;
+}
+
+.nav-left {
+  /* Aligns +/- toggler with the start of column 2 (matching portfolio content) */
+  grid-column: 2;
+  justify-self: start;
+}
+
+.nav-center {
+  position: fixed;
+  left: 50vw;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+  /* Ensure it's above other header elements */
+}
+
+.nav-right {
+  grid-column: 4;
+  justify-self: end;
+}
+
+
+.nav-left span {
+  color: var(--text-secondary);
+}
+
+.nav-left a,
+.nav-center a {
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+  display: inline-block;
+}
+
+.nav-left a.active {
+  text-decoration: underline;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+}
+
+.nav-center a.current-page {
+  color: var(--text-disabled);
+  pointer-events: none;
+}
+
+.nav-center a:hover {
+  color: var(--text-secondary);
+}
+
+/* Theme Toggle Switch */
+.theme-toggle {
+  background: #a8a8a8;
+  border: none;
+  border-radius: 40px;
+  width: 52px;
+  height: 28px;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-medium);
+  padding: 0;
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: #4a4a4a;
+}
+
+.theme-toggle-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform var(--transition-medium), background var(--transition-medium);
+  transform: translateX(0);
+}
+
+[data-theme="dark"] .theme-toggle-circle {
+  background: #111111;
+  transform: translateX(24px);
+}
+
+/* =========================================
+   Main Container — true 4-column grid
+
+   Track map:
+     col 1       →  WRIGHT (visually sparse — only the brand name lives here)
+     cols 2–4   →  main content (portfolio / contact)
+
+   repeat(4, 1fr) gives equal column widths and identical
+   left/right outside margins from the padding.
+   ========================================= */
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+  padding: calc(var(--space-xl) * 2) var(--space-xl) var(--space-xl);
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* ─── Sidebar — column 1 (far left, close to left margin) ─── */
+.sidebar {
+  grid-column: 1;
+}
+
+.sidebar-inner {
+  /* Fixed at viewport vertical center so WRIGHT anchors to 50vh regardless of scroll */
+  position: fixed;
+  top: 50vh;
+  left: var(--space-xl);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+/* Show sidebar on contact page — WRIGHT is visible on both pages */
+
+
+.brand-name {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* ─── Portfolio — columns 2–4 ─── */
+.portfolio {
+  grid-column: 2 / 5;
+  width: 100%;
+  /* Push first project title to align with WRIGHT at 50vh.
+     Subtracts the container's own top padding so the baseline lands exactly. */
+  margin-top: calc(50vh - calc(var(--font-size-md) * 0.75) - calc(var(--space-xl) * 2));
+}
+
+/* =========================================
+   Contact Page Specifics
+   ========================================= */
+
+.contact-body {
+  /* Prevent scrolling if content fits perfectly inside the screen height */
+  overflow-x: hidden;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-disabled: rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+  background-color: #f26624;
+  /* Solid orange background */
+}
+
+.contact-body header.top-nav {
+  background: linear-gradient(to bottom, #f26624 0%, rgba(242, 102, 36, 0) 100%);
+}
+
+.contact-body .nav-right {
+  display: none;
+  /* Keep theme toggle hidden on contact page as originally intended */
+}
+
+/* Contact page: clock starts in nav-left; on collapse it moves to center */
+.contact-body .nav-left {
+  transition: all var(--transition-fast);
+}
+
+
+/* Create the purple/blue tint seen in the mockup */
+.contact-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(85, 90, 135, 0.7);
+  /* Hardcoded blueish tint from image */
+  mix-blend-mode: multiply;
+}
+
+[data-theme="dark"] .contact-bg-overlay {
+  background: rgba(30, 32, 50, 0.85);
+  /* Darker tint for dark mode */
+}
+
+.contact-content {
+  /* Sit in columns 2–4, matching the portfolio column span */
+  grid-column: 2 / 5;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;
+  gap: calc(var(--space-xl) * 1.5);
+  margin-top: calc(50vh - calc(var(--font-size-md) * 0.75) - calc(var(--space-xl)*2));
+  min-height: calc(50vh + calc(var(--font-size-md) * 0.75));
+  padding-bottom: var(--space-xl);
+  box-sizing: border-box;
+}
+
+.contact-bio {
+  grid-column: 1;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  margin-bottom: var(--space-xl);
+}
+
+.contact-bio p {
+  margin-bottom: var(--space-xl);
+}
+
+.contact-bio br {
+  display: none;
+  /* Replaced br with margin-bottom for better paragraph control */
+}
+
+.contact-info {
+  grid-column: 2;
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+.contact-footer-left {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+}
+
+.contact-footer-right {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Project List Sections */
+.project-series {
+  margin-bottom: calc(var(--space-xl) * 2);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-xs);
+}
+
+.project-header h2 {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+}
+
+.project-header a.project-link {
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: color var(--transition-short, 0.2s ease);
+  display: inline-block;
+}
+
+.project-header a.project-link:hover {
+  color: var(--text-secondary);
+}
+
+.portfolio-count {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.project-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  line-height: 1.4;
+}
+
+/* Grid Layouts for Projects */
+.project-grid {
+  display: grid;
+  gap: var(--space-sm);
+  transition: all var(--transition-medium);
+}
+
+/* Dynamic Grid Sizes via JS */
+.portfolio[data-grid-size="1"] .project-grid {
+  grid-template-columns: 1fr;
+}
+
+.portfolio[data-grid-size="2"] .project-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.portfolio[data-grid-size="3"] .project-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.portfolio[data-grid-size="4"] .project-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.project-item {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Add slight delay for waterfall effect based on child index */
+.project-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.project-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.project-item:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.project-item:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-item img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter var(--transition-fast);
+  will-change: transform;
+}
+
+.project-item a.project-image-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  /* Soften edges slightly */
+}
+
+.project-item:hover img {
+  transform: scale(1.04);
+  filter: brightness(0.9);
+}
+
+/* =========================================
+   Responsive Breakpoints
+
+   1. ≤1024px  Tablet — cap project grids
+   2. ≤900px   Collapse — Single column layout & Unified Header
+   3. ≤1100px  Contact Page — prevent header collision early
+   ========================================= */
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .portfolio[data-grid-size] .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Header Breakpoint (1100px) ── */
+/* Prevents collision between clock/brand and nav items early */
+@media (max-width: 1100px) {
+  header.top-nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center;
+    padding: var(--space-xl) var(--space-xl) 0 !important;
+  }
+
+  /* Portfolio specific header break: push menu to the right */
+  body:not(.contact-body) header.top-nav::before {
+    content: '';
+    display: block;
+    width: 60px;
+    /* Clearance for WRIGHT text */
+  }
+
+  .nav-left {
+    grid-column: auto;
+  }
+
+  body:not(.contact-body) .nav-left {
+    display: none !important;
+    /* Force hide +/- toggler */
+  }
+
+  /* Contact page: move clock to center (like theme toggle on portfolio) */
+  .contact-body .nav-left {
+    position: fixed !important;
+    left: 50vw !important;
+    transform: translateX(-50%) !important;
+    order: 2;
+    display: flex !important;
+    z-index: 1001;
+  }
+
+  .nav-center {
+    position: static !important;
+    transform: none !important;
+    margin-left: auto !important;
+    /* Force push to the right side of the flex header */
+    margin-right: 0 !important;
+    order: 3;
+    z-index: 1001;
+  }
+
+  .nav-right {
+    position: fixed !important;
+    left: 50vw !important;
+    transform: translateX(-50%) !important;
+    order: 2;
+    /* Centered element stays out of flow */
+    display: flex !important;
+    /* Ensure theme toggle is visible on portfolio */
+  }
+
+  .contact-body .nav-right {
+    display: none !important;
+    /* Keep hidden on contact */
+  }
+
+  /* Contact page: WRIGHT stays top-left like portfolio */
+  .contact-body .sidebar-inner {
+    position: fixed !important;
+    top: var(--space-xl) !important;
+    left: var(--space-xl) !important;
+    transform: none !important;
+    z-index: 1100;
+  }
+
+  /* WRIGHT: Position top-left early to match contact clock position */
+  .sidebar-inner {
+    position: fixed !important;
+    top: var(--space-xl) !important;
+    left: var(--space-xl) !important;
+    transform: none !important;
+    z-index: 1100;
+  }
+}
+
+/* ── Content Collapse Breakpoint (900px) ── */
+@media (max-width: 900px) {
+
+  /* Layout: Switch to single column content */
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sidebar holds zero height in collapsed state */
+  .sidebar {
+    grid-column: 1;
+    height: 0;
+    overflow: visible;
+  }
+
+  /* Content: Full width images/type */
+  .portfolio {
+    grid-column: 1 / -1;
+  }
+
+  .portfolio[data-grid-size] .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-body .contact-content {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+    margin-top: calc(50vh - calc(var(--font-size-md) * 0.75) - calc(var(--space-xl)*2));
+    min-height: auto;
+    max-width: 70ch;
+  }
+
+  .contact-body .contact-info {
+    grid-column: 1;
+    margin-top: var(--space-xl);
+  }
+
+  .contact-body .contact-footer-right {
+    display: none;
+  }
+
+  /* Ensure WRIGHT is visible on both pages in collapsed state */
+  .sidebar {
+    display: block !important;
+  }
+}
+
+/* =========================================
+   6. Archive Page Styles
+   ========================================= */
+
+.archive-body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  overflow-x: hidden;
+}
+
+.archive-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 75vh auto;
+  gap: var(--space-xl);
+  padding: 0 var(--space-xl);
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/* Sidebar for Archive - Sticky WRIGHT */
+.archive-body .sidebar {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  position: relative;
+  height: 100%;
+  pointer-events: none;
+}
+
+.archive-body .sidebar-inner {
+  /* RESET GLOBAL FIXED POSITION */
+  position: sticky !important;
+  display: inline-block;
+  top: var(--space-xl) !important;
+  left: 0 !important;
+  transform: none !important;
+  /* Align top edges at 50vh */
+  margin-top: calc(50vh - calc(var(--font-size-md) * 0.4));
+  pointer-events: auto;
+  z-index: 1100;
+  /* Above top-nav gradient (1000) */
+}
+
+/* Archive Intro - Top edge aligned at 50vh */
+.archive-intro {
+  grid-column: 2 / 5;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  /* Align exactly with logo margin-top */
+  margin-top: calc(50vh - calc(var(--font-size-md) * 0.4));
+  width: 100%;
+  max-width: 60ch;
+  z-index: 10;
+}
+
+.archive-title {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.archive-description {
+  max-width: 50ch;
+  /* Tighter line length for elegant centering */
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 0;
+}
+
+/* Full Bleed Grid Container - Part of Row 2 */
+.archive-grid-outer {
+  grid-column: 1 / 5;
+  grid-row: 2;
+  width: 100vw;
+  margin-left: calc(-1 * var(--space-xl));
+  position: relative;
+  z-index: 1;
+}
+
+.archive-grid-header {
+  font-size: var(--font-size-xs);
+  padding: var(--space-sm) var(--space-xl);
+  color: var(--text-secondary);
+  border-top: 0.5px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.archive-count {
+  font-size: 0.8em;
+  vertical-align: super;
+}
+
+/* Archive CSS Grid: Full Bleed 4-Column (27-b aesthetic) */
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  width: 100%;
+}
+
+.archive-item {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border-right: 0.5px solid var(--border-color);
+  border-bottom: 0.5px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.archive-item:nth-child(4n) {
+  border-right: none;
+}
+
+.archive-item-image {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  overflow: hidden;
+}
+
+.archive-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.archive-item:hover img {
+  transform: scale(1.04);
+}
+
+/* Archive Item Typography */
+.archive-item-info {
+  padding: calc(var(--space-md) * 0.75) var(--space-xl);
+  background-color: var(--bg-color);
+}
+
+.archive-item-info h3 {
+  font-size: var(--font-size-base);
+  font-weight: 400;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  letter-spacing: 0.03em;
+}
+
+.archive-item-info p {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+/* Responsive Archive Layout */
+@media (max-width: 1100px) {
+  .archive-body .sidebar-inner {
+    position: fixed !important;
+    top: var(--space-xl) !important;
+    left: var(--space-xl) !important;
+    margin-top: 0 !important;
+    display: block !important;
+    z-index: 2000;
+  }
+
+  .archive-intro {
+    grid-column: 2 / 5;
+    padding-right: var(--space-xl);
+  }
+
+  .archive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .archive-item:nth-child(4n) {
+    border-right: 0.5px solid var(--border-color);
+  }
+
+  .archive-item:nth-child(3n) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .archive-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .archive-intro {
+    grid-column: 1;
+    padding: 0;
+    height: auto;
+    min-height: 40vh;
+  }
+
+  /* Sidebar already fixed at 1100px */
+
+  .archive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .archive-item:nth-child(3n) {
+    border-right: 0.5px solid var(--border-color);
+  }
+
+  .archive-item:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .archive-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-item {
+    border-right: none;
+  }
+}
