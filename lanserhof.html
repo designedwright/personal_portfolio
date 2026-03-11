@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRIGHT - Lanserhof</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="top-nav">
+        <div class="nav-left">
+            <span><a href="#" id="grid-plus" class="grid-control" title="Increase image size">+</a>&nbsp;&nbsp;<a
+                    href="#" id="grid-minus" class="grid-control" title="Decrease image size">&ndash;</a></span>
+        </div>
+        <nav class="nav-center">
+            <a href="contact.html">contact</a>,<a href="index.html" class="current-page">portfolio</a>,<a
+                href="archive.html">archive</a>
+        </nav>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                <span class="theme-toggle-circle"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container project-detail-container">
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <h1 class="brand-name"><a href="index.html" style="text-decoration:none; color:inherit;">WRIGHT</a></h1>
+            </div>
+        </aside>
+
+        <section class="portfolio project-detail-view" data-grid-size="2">
+            <article class="project-series single-project">
+                <header class="project-header">
+                    <h2>Lanserhof</h2>
+                    <span class="portfolio-count">2025</span>
+                </header>
+                <div class="project-subtitle">
+                    <p>New imagery for the renowned luxury health resort</p>
+                    <p>Located at Sylt</p>
+                    <p>Produced by Friederike Seifert</p>
+                </div>
+
+                <div class="project-grid">
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&h=1200&q=80"
+                            alt="Resort 1"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?auto=format&fit=crop&w=1600&h=1200&q=80"
+                            alt="Resort 2"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=1600&h=1200&q=80"
+                            alt="Resort 3"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1600&h=1200&q=80"
+                            alt="Resort 4"></div>
+                </div>
+
+                <div class="project-navigation"
+                    style="margin-top: 4rem; display: flex; justify-content: space-between;">
+                    <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">&larr; Back to
+                        Portfolio</a>
+                    <a href="tanya.html" style="color: var(--text-primary); text-decoration: none;">Next Project: Tanya
+                        Kizko &rarr;</a>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

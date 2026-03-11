@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRIGHT - Tanya Kizko</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="top-nav">
+        <div class="nav-left">
+            <span><a href="#" id="grid-plus" class="grid-control" title="Increase image size">+</a>&nbsp;&nbsp;<a
+                    href="#" id="grid-minus" class="grid-control" title="Decrease image size">&ndash;</a></span>
+        </div>
+        <nav class="nav-center">
+            <a href="contact.html">contact</a>,<a href="index.html" class="current-page">portfolio</a>,<a
+                href="archive.html">archive</a>
+        </nav>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                <span class="theme-toggle-circle"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container project-detail-container">
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <h1 class="brand-name"><a href="index.html" style="text-decoration:none; color:inherit;">WRIGHT</a></h1>
+            </div>
+        </aside>
+
+        <section class="portfolio project-detail-view" data-grid-size="2">
+            <article class="project-series single-project">
+                <header class="project-header">
+                    <h2>Tanya Kizko</h2>
+                    <span class="portfolio-count">2026</span>
+                </header>
+                <div class="project-subtitle">
+                    <p>Portraits of Tanya Kizko</p>
+                    <p>Shot at -14 degrees in NYC.</p>
+                </div>
+
+                <div class="project-grid">
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&h=1600&q=80"
+                            alt="Portrait 1"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&h=1600&q=80"
+                            alt="Portrait 2"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?auto=format&fit=crop&w=1200&h=1600&q=80"
+                            alt="Portrait 3"></div>
+                    <div class="project-item"><img
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&h=1600&q=80"
+                            alt="Portrait 4"></div>
+                </div>
+
+                <div class="project-navigation"
+                    style="margin-top: 4rem; display: flex; justify-content: space-between;">
+                    <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">&larr; Back to
+                        Portfolio</a>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
