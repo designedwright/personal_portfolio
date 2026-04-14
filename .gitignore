@@ -1,3 +1,4 @@
 Projects/TANK/Raw/
 Projects/*/Video/
 *.psd
+.DS_Store
