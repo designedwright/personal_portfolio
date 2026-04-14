@@ -26,6 +26,7 @@
             <div class="sidebar-inner">
                 <h1 class="brand-name"><a href="index.html" style="text-decoration:none; color:inherit;">WRIGHT</a></h1>
             </div>
+            <a href="index.html" class="project-back-link">← portfolio</a>
         </aside>
 
         <section class="project-content">
@@ -60,7 +61,17 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous image">&#8592;</button>
+        <button class="lightbox-next" aria-label="Next image">&#8594;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <script src="script.js?v=9"></script>
 </body>
 
 </html>

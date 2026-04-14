@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRIGHT — Sleepy Hollow Ranch</title>
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+
+<body class="project-body">
+    <header class="top-nav">
+        <div class="nav-left"></div>
+        <nav class="nav-center">
+            <a href="contact.html">contact</a>, <a href="index.html">portfolio</a>, <a href="archive.html">archive</a>
+        </nav>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                <span class="theme-toggle-circle"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar">
+            <div class="sidebar-inner">
+                <h1 class="brand-name"><a href="index.html" style="text-decoration:none; color:inherit;">WRIGHT</a></h1>
+            </div>
+            <a href="index.html" class="project-back-link">← portfolio</a>
+        </aside>
+
+        <section class="project-content">
+            <div class="project-title-block">
+                <h2 class="project-name">Sleepy Hollow Ranch</h2>
+            </div>
+
+            <p class="project-description">Branding for my families historic ranch.</p>
+
+            <!-- 1. Presentation video -->
+            <div class="project-full-image">
+                <video src="Projects/SHR/Video/20251204_440_SHR_PresentationVid.mp4"
+                    autoplay loop muted playsinline></video>
+            </div>
+
+            <!-- 2. Logo -->
+            <div class="project-full-image">
+                <img src="Projects/SHR/Images/20251204_440_SHR_Logo.jpg" alt="SHR Logo">
+            </div>
+
+            <!-- 3. Paratrooper class photo + Ranch Gate -->
+            <div class="project-image-row">
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251214_440_SHR_ParatrooperClassPhotoCrop-s.jpg" alt="Paratrooper Class Photo">
+                </div>
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251214_440_SHR_Ranch%20Gate%20Crop-s.jpg" alt="Ranch Gate">
+                </div>
+            </div>
+
+            <!-- 4. Sign -->
+            <div class="project-full-image">
+                <img src="Projects/SHR/Images/20251213_440_SHR_Sign.jpg" alt="SHR Sign">
+            </div>
+
+            <!-- 5. Shearing + Wagon -->
+            <div class="project-image-row">
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251213_440_SHR_Shearing-s.jpg" alt="Shearing">
+                </div>
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251213_440_SHR_Wagon-s.jpg" alt="Wagon">
+                </div>
+            </div>
+
+            <!-- 6. Logo animation video -->
+            <div class="project-full-image">
+                <video src="Projects/SHR/Video/20251204_440_SHR_LogoAnim.mp4"
+                    autoplay loop muted playsinline></video>
+            </div>
+
+            <!-- 7. Business card mockup -->
+            <div class="project-full-image">
+                <img src="Projects/SHR/Images/20251214_440_SHR_BC_Mockup.jpg" alt="Business Card Mockup">
+            </div>
+
+            <!-- 8. Mark and Arline + Provo Canyon Herd -->
+            <div class="project-image-row">
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251214_440_SHR_MarkAndArline-s.jpg" alt="Mark and Arline">
+                </div>
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251213_440_SHR_ProvoCanyonHerd-s.jpg" alt="Provo Canyon Herd">
+                </div>
+            </div>
+
+            <!-- 9. Truck mockup -->
+            <div class="project-full-image">
+                <img src="Projects/SHR/Images/20251214_440_SHR_Truck_Mockup.jpg" alt="Truck Mockup">
+            </div>
+
+            <!-- 10. Stickers -->
+            <div class="project-image-row">
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251214_440_SHR_SheepSticker.jpg" alt="Sheep Sticker">
+                </div>
+                <div class="project-full-image">
+                    <img src="Projects/SHR/Images/20251214_440_SHR_UtahSticker.jpg" alt="Utah Sticker">
+                </div>
+            </div>
+
+            <nav class="project-nav">
+                <a href="lanserhof.html">← TANK Magazine</a>
+                <a href="index.html" class="project-nav-next">portfolio →</a>
+            </nav>
+        </section>
+    </main>
+
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous image">&#8592;</button>
+        <button class="lightbox-next" aria-label="Next image">&#8594;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <script src="script.js?v=9"></script>
+</body>
+
+</html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRIGHT — Lanserhof</title>
+    <title>WRIGHT — TANK Magazine</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -26,41 +26,61 @@
             <div class="sidebar-inner">
                 <h1 class="brand-name"><a href="index.html" style="text-decoration:none; color:inherit;">WRIGHT</a></h1>
             </div>
+            <a href="index.html" class="project-back-link">← portfolio</a>
         </aside>
 
         <section class="project-content">
             <div class="project-title-block">
-                <h2 class="project-name">Lanserhof</h2>
+                <h2 class="project-name">TANK Magazine</h2>
             </div>
 
-            <p class="project-description">New imagery for the renowned luxury health resort at Sylt, produced by Friederike Seifert.</p>
+            <p class="project-description">A redesign of TANK Magazine — a return to the directness of their founding vision. Bold typography, confrontational portraiture, and an editorial system that treats fashion as a form of cultural inquiry rather than aspiration.</p>
 
             <div class="project-full-image">
-                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2400&q=80" alt="Lanserhof 1">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Covers.png" alt="TANK Covers">
             </div>
             <div class="project-full-image">
-                <img src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?auto=format&fit=crop&w=2400&q=80" alt="Lanserhof 2">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Cover&TOC.png" alt="TANK Cover and TOC">
+            </div>
+            <div class="project-full-image">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_AngleSpread.png" alt="TANK Angle Spread">
+            </div>
+            <div class="project-full-image">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Web.png" alt="TANK Web">
+            </div>
+            <div class="project-full-image">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_HandSpread.png" alt="TANK Hand Spread">
             </div>
             <div class="project-image-row">
                 <div class="project-full-image">
-                    <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=1200&q=80" alt="Lanserhof 3">
+                    <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Cover1.png" alt="TANK Cover Option 1">
                 </div>
                 <div class="project-full-image">
-                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80" alt="Lanserhof 4">
+                    <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Cover2.png.png" alt="TANK Cover Option 2">
                 </div>
             </div>
             <div class="project-full-image">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2400&q=80" alt="Lanserhof 5">
+                <img src="Projects/TANK/Images/20241219_WRIGHT_TANK_Cover3.png" alt="TANK Cover Option 3">
             </div>
 
             <nav class="project-nav">
                 <a href="index.html">← portfolio</a>
-                <a href="tanya.html" class="project-nav-next">Tanya Kizko →</a>
+                <a href="shr.html" class="project-nav-next">Sleepy Hollow Ranch →</a>
             </nav>
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <button class="lightbox-prev" aria-label="Previous image">&#8592;</button>
+        <button class="lightbox-next" aria-label="Next image">&#8594;</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <script src="script.js?v=9"></script>
 </body>
 
 </html>
