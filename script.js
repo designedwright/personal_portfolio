@@ -502,25 +502,34 @@ document.addEventListener("DOMContentLoaded", () => {
             grid.style.height = Math.max(...colHeights) + GAP + 'px';
         };
 
-        // Run immediately — width/height attrs on <img> give the browser
-        // intrinsic aspect ratios so offsetHeight is accurate before pixels load.
-        runMasonry();
-
-        // Re-run as each image finishes loading so positions stay precise.
+        // Wait for all images to load before laying out — original approach,
+        // kept because masonry needs real offsetHeights to calculate columns.
+        // archive.html images do NOT use loading="lazy" so they all fire load.
         const allImgs = document.querySelectorAll('.archive-grid img');
-        allImgs.forEach(img => {
-            if (!img.complete) {
-                img.addEventListener('load',  runMasonry);
-                img.addEventListener('error', runMasonry);
-            }
-        });
+        let loaded = 0;
+        const total = allImgs.length;
+
+        const onLoad = () => {
+            loaded++;
+            if (loaded >= total) runMasonry();
+        };
+
+        if (total === 0) {
+            runMasonry();
+        } else {
+            allImgs.forEach(img => {
+                if (img.complete) onLoad();
+                else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
+            });
+        }
 
         window.addEventListener('resize', runMasonry);
 
         // ── Scroll-triggered fade-in (IntersectionObserver) ──────────────
         // Items start invisible via CSS (.archive-item { opacity: 0 }).
-        // When an item enters the viewport (+ 60px root margin), we add
-        // .is-visible which transitions opacity and a slight upward slide.
+        // After masonry fires and positions items, the observer watches for
+        // each item entering the viewport and adds .is-visible to fade it in.
+        // We set this up now; it will fire correctly once items are positioned.
         const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -529,7 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }, {
-            rootMargin: '0px 0px 60px 0px',
+            rootMargin: '0px 0px 80px 0px',
             threshold: 0.01
         });
 
