@@ -995,23 +995,23 @@ header.top-nav {
 }
 
 .archive-item {
-  /* width + position set by JS masonry — starts invisible until laid out */
+  /* width + position set by JS masonry */
   position: relative;
   display: flex;
   flex-direction: column;
   padding: 0;
   background-color: transparent;
+  /* Start hidden — IntersectionObserver adds .is-visible when scrolled into view */
   opacity: 0;
-  transform: translateY(10px);
-  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(14px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Staggered fadeUp animations */
-.archive-item:nth-child(2) { animation-delay: 0.05s; }
-.archive-item:nth-child(3) { animation-delay: 0.1s; }
-.archive-item:nth-child(4) { animation-delay: 0.15s; }
-.archive-item:nth-child(5) { animation-delay: 0.2s; }
-.archive-item:nth-child(6) { animation-delay: 0.25s; }
+.archive-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .archive-item img {
   width: 100%;

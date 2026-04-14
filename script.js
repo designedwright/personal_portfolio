@@ -502,26 +502,40 @@ document.addEventListener("DOMContentLoaded", () => {
             grid.style.height = Math.max(...colHeights) + GAP + 'px';
         };
 
-        // Wait for all images before laying out
+        // Run immediately — width/height attrs on <img> give the browser
+        // intrinsic aspect ratios so offsetHeight is accurate before pixels load.
+        runMasonry();
+
+        // Re-run as each image finishes loading so positions stay precise.
         const allImgs = document.querySelectorAll('.archive-grid img');
-        let loaded = 0;
-        const total = allImgs.length;
-
-        const onLoad = () => {
-            loaded++;
-            if (loaded >= total) runMasonry();
-        };
-
-        if (total === 0) {
-            runMasonry();
-        } else {
-            allImgs.forEach(img => {
-                if (img.complete) onLoad();
-                else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
-            });
-        }
+        allImgs.forEach(img => {
+            if (!img.complete) {
+                img.addEventListener('load',  runMasonry);
+                img.addEventListener('error', runMasonry);
+            }
+        });
 
         window.addEventListener('resize', runMasonry);
+
+        // ── Scroll-triggered fade-in (IntersectionObserver) ──────────────
+        // Items start invisible via CSS (.archive-item { opacity: 0 }).
+        // When an item enters the viewport (+ 60px root margin), we add
+        // .is-visible which transitions opacity and a slight upward slide.
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '0px 0px 60px 0px',
+            threshold: 0.01
+        });
+
+        document.querySelectorAll('.archive-item').forEach(item => {
+            fadeObserver.observe(item);
+        });
     }
 
     /* =========================================
