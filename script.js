@@ -407,24 +407,39 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.body.classList.contains('project-body')) {
         const lightbox    = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxVid = document.getElementById('lightbox-video');
         const lightboxCap = document.getElementById('lightbox-caption');
         const btnClose    = document.querySelector('.lightbox-close');
         const btnPrev     = document.querySelector('.lightbox-prev');
         const btnNext     = document.querySelector('.lightbox-next');
 
-        // Collect all images inside project content (skip videos)
-        const imgs = Array.from(
-            document.querySelectorAll('.project-content .project-full-image img')
+        // Collect all images and videos inside project content
+        const media = Array.from(
+            document.querySelectorAll('.project-content .project-full-image img, .project-content .project-full-image video')
         );
         let current = 0;
 
-        if (imgs.length && lightbox) {
+        if (media.length && lightbox) {
             const show = (index) => {
-                current = (index + imgs.length) % imgs.length;
-                const img = imgs[current];
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCap.textContent = img.alt || '';
+                current = (index + media.length) % media.length;
+                const el = media[current];
+
+                if (el.tagName === 'VIDEO') {
+                    lightboxImg.style.display = 'none';
+                    lightboxVid.style.display = 'block';
+                    lightboxVid.src = el.src;
+                    lightboxVid.play();
+                    lightboxCap.textContent = el.title || '';
+                } else {
+                    lightboxVid.pause();
+                    lightboxVid.src = '';
+                    lightboxVid.style.display = 'none';
+                    lightboxImg.style.display = 'block';
+                    lightboxImg.src = el.src;
+                    lightboxImg.alt = el.alt;
+                    lightboxCap.textContent = el.alt || '';
+                }
+
                 lightbox.classList.add('open');
                 document.body.style.overflow = 'hidden';
             };
@@ -432,13 +447,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const close = () => {
                 lightbox.classList.remove('open');
                 document.body.style.overflow = '';
-                setTimeout(() => { lightboxImg.src = ''; }, 200);
+                setTimeout(() => {
+                    lightboxImg.src = '';
+                    lightboxVid.pause();
+                    lightboxVid.src = '';
+                }, 200);
             };
 
-            // Make each image clickable
-            imgs.forEach((img, i) => {
-                img.style.cursor = 'pointer';
-                img.addEventListener('click', () => show(i));
+            // Make each image and video clickable
+            media.forEach((el, i) => {
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', () => show(i));
             });
 
             btnClose.addEventListener('click', close);
