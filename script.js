@@ -325,6 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.body.classList.contains('archive-body')) {
         const lightbox      = document.getElementById('lightbox');
         const lightboxImg   = document.getElementById('lightbox-img');
+        const lightboxVid   = document.getElementById('lightbox-video');
         const lightboxCap   = document.getElementById('lightbox-caption');
         const btnClose      = document.querySelector('.lightbox-close');
         const btnPrev       = document.querySelector('.lightbox-prev');
@@ -335,15 +336,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const show = (index) => {
             current = (index + items.length) % items.length;
-            const item   = items[current];
-            const img    = item.querySelector('img');
-            const name   = item.querySelector('.project-name');
-            const cat    = item.querySelector('.project-category');
+            const item = items[current];
+            const img  = item.querySelector('img');
+            const vid  = item.querySelector('video');
+            const name = item.querySelector('.project-name');
+            const cat  = item.querySelector('.project-category');
 
-            lightboxImg.src = img.src;
-            lightboxImg.alt = img.alt;
             lightboxCap.textContent = [name && name.textContent, cat && cat.textContent]
                 .filter(Boolean).join('  ');
+
+            if (vid) {
+                lightboxImg.style.display = 'none';
+                lightboxVid.style.display = 'block';
+                lightboxVid.src = vid.src;
+                lightboxVid.play();
+            } else {
+                lightboxVid.pause();
+                lightboxVid.src = '';
+                lightboxVid.style.display = 'none';
+                lightboxImg.style.display = 'block';
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+            }
 
             lightbox.classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -352,8 +366,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const close = () => {
             lightbox.classList.remove('open');
             document.body.style.overflow = '';
-            // Clear src after transition so there's no flash on next open
-            setTimeout(() => { lightboxImg.src = ''; }, 200);
+            setTimeout(() => {
+                lightboxImg.src = '';
+                lightboxVid.pause();
+                lightboxVid.src = '';
+            }, 200);
         };
 
         // Open on item click
@@ -366,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btnPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
         btnNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
 
-        // Click outside image to close
+        // Click outside to close
         lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
 
         // Keyboard: Esc closes, arrows navigate

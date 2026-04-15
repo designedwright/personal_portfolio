@@ -887,7 +887,8 @@ header.top-nav {
   max-height: 90vh;
 }
 
-.lightbox-content img {
+.lightbox-content img,
+.lightbox-content video {
   max-width: 88vw;
   max-height: 82vh;
   width: auto;
@@ -895,6 +896,10 @@ header.top-nav {
   object-fit: contain;
   display: block;
   border-radius: 2px;
+}
+
+#lightbox-video {
+  display: none;
 }
 
 .lightbox-caption {
@@ -1037,7 +1042,8 @@ header.top-nav {
   cursor: pointer;
 }
 
-.archive-item:hover img {
+.archive-item:hover img,
+.archive-item:hover video {
   transform: scale(1.02);
   filter: brightness(0.9);
 }
