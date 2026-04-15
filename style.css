@@ -807,6 +807,15 @@ header.top-nav {
   margin-bottom: var(--space-sm);
 }
 
+.project-vimeo {
+  margin-bottom: var(--space-sm);
+}
+
+.project-vimeo > div {
+  margin-bottom: 0;
+  line-height: 0;
+}
+
 .project-full-image img,
 .project-full-image video {
   width: 100%;
