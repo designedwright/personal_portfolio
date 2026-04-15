@@ -413,31 +413,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnPrev     = document.querySelector('.lightbox-prev');
         const btnNext     = document.querySelector('.lightbox-next');
 
-        // Collect all images and videos inside project content
-        const media = Array.from(
-            document.querySelectorAll('.project-content .project-full-image img, .project-content .project-full-image video')
+        // Collect all .project-full-image containers (each wraps one img or video)
+        const containers = Array.from(
+            document.querySelectorAll('.project-content .project-full-image')
         );
         let current = 0;
 
-        if (media.length && lightbox) {
+        if (containers.length && lightbox) {
             const show = (index) => {
-                current = (index + media.length) % media.length;
-                const el = media[current];
+                current = (index + containers.length) % containers.length;
+                const container = containers[current];
+                const vid = container.querySelector('video');
+                const img = container.querySelector('img');
 
-                if (el.tagName === 'VIDEO') {
+                if (vid) {
                     lightboxImg.style.display = 'none';
                     lightboxVid.style.display = 'block';
-                    lightboxVid.src = el.src;
+                    lightboxVid.src = vid.src;
+                    lightboxVid.load();
                     lightboxVid.play();
-                    lightboxCap.textContent = el.title || '';
-                } else {
+                    lightboxCap.textContent = '';
+                } else if (img) {
                     lightboxVid.pause();
                     lightboxVid.src = '';
                     lightboxVid.style.display = 'none';
                     lightboxImg.style.display = 'block';
-                    lightboxImg.src = el.src;
-                    lightboxImg.alt = el.alt;
-                    lightboxCap.textContent = el.alt || '';
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCap.textContent = img.alt || '';
                 }
 
                 lightbox.classList.add('open');
@@ -454,10 +457,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 200);
             };
 
-            // Make each image and video clickable
-            media.forEach((el, i) => {
-                el.style.cursor = 'pointer';
-                el.addEventListener('click', () => show(i));
+            // Listen on the container so clicks on videos are reliably caught
+            containers.forEach((container, i) => {
+                container.style.cursor = 'pointer';
+                container.addEventListener('click', () => show(i));
             });
 
             btnClose.addEventListener('click', close);
