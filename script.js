@@ -502,12 +502,11 @@ document.addEventListener("DOMContentLoaded", () => {
             grid.style.height = Math.max(...colHeights) + GAP + 'px';
         };
 
-        // Wait for all images to load before laying out — original approach,
-        // kept because masonry needs real offsetHeights to calculate columns.
-        // archive.html images do NOT use loading="lazy" so they all fire load.
-        const allImgs = document.querySelectorAll('.archive-grid img');
+        // Wait for all images and videos before laying out.
+        const allImgs  = Array.from(document.querySelectorAll('.archive-grid img'));
+        const allVids  = Array.from(document.querySelectorAll('.archive-grid video'));
         let loaded = 0;
-        const total = allImgs.length;
+        const total = allImgs.length + allVids.length;
 
         const onLoad = () => {
             loaded++;
@@ -520,6 +519,10 @@ document.addEventListener("DOMContentLoaded", () => {
             allImgs.forEach(img => {
                 if (img.complete) onLoad();
                 else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
+            });
+            allVids.forEach(vid => {
+                if (vid.readyState >= 1) onLoad(); // HAVE_METADATA
+                else { vid.addEventListener('loadedmetadata', onLoad); vid.addEventListener('error', onLoad); }
             });
         }
 

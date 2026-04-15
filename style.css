@@ -1024,7 +1024,8 @@ header.top-nav {
   transform: translateY(0);
 }
 
-.archive-item img {
+.archive-item img,
+.archive-item video {
   width: 100%;
   height: auto;
   display: block;
