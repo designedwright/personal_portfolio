@@ -808,12 +808,13 @@ header.top-nav {
 }
 
 .project-vimeo {
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0;
 }
 
 .project-vimeo > div {
   margin-bottom: 0;
   line-height: 0;
+  font-size: 0;
 }
 
 .project-full-image img,
