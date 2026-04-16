@@ -389,6 +389,18 @@ header.top-nav {
   text-align: left;
 }
 
+.resume-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: opacity var(--transition-fast);
+}
+
+.resume-link:hover {
+  opacity: 0.5;
+}
+
 .contact-footer-left {
   grid-column: 1;
   grid-row: 2;
