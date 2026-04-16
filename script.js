@@ -417,6 +417,17 @@ document.addEventListener("DOMContentLoaded", () => {
             if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
         }, { passive: true });
 
+        // Trackpad horizontal swipe (wheel deltaX)
+        let wheelTimer = null;
+        lightbox.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return; // ignore vertical scroll
+            if (Math.abs(e.deltaX) < 30) return; // ignore tiny movements
+            clearTimeout(wheelTimer);
+            wheelTimer = setTimeout(() => {
+                e.deltaX > 0 ? show(current + 1) : show(current - 1);
+            }, 50);
+        }, { passive: true });
+
         // Keyboard: Esc closes, arrows navigate
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('open')) return;
@@ -513,6 +524,17 @@ document.addEventListener("DOMContentLoaded", () => {
             lightbox.addEventListener('touchend', (e) => {
                 const dx = e.changedTouches[0].clientX - touchStartX;
                 if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
+            }, { passive: true });
+
+            // Trackpad horizontal swipe (wheel deltaX)
+            let wheelTimer = null;
+            lightbox.addEventListener('wheel', (e) => {
+                if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return; // ignore vertical scroll
+                if (Math.abs(e.deltaX) < 30) return; // ignore tiny movements
+                clearTimeout(wheelTimer);
+                wheelTimer = setTimeout(() => {
+                    e.deltaX > 0 ? show(current + 1) : show(current - 1);
+                }, 50);
             }, { passive: true });
 
             document.addEventListener('keydown', (e) => {
