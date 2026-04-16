@@ -315,6 +315,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Only run on the contact page
     if (document.body.classList.contains('contact-body')) {
+        // Make phone/email clickable only on touch devices
+        if (window.matchMedia('(hover: none)').matches) {
+            document.querySelectorAll('.contact-info p').forEach(p => {
+                const text = p.textContent;
+                if (text.startsWith('T.')) {
+                    const num = text.replace('T. ', '').trim().replace(/\s/g, '');
+                    p.innerHTML = `<a href="tel:${num}" class="contact-link">${text}</a>`;
+                } else if (text.startsWith('E.')) {
+                    const email = text.replace('E. ', '').trim();
+                    p.innerHTML = `<a href="mailto:${email}" class="contact-link">${text}</a>`;
+                }
+            });
+        }
         initTextReveal();
     }
 
@@ -395,6 +408,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Click outside to close
         lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+        // Swipe to navigate on touch devices
+        let touchStartX = 0;
+        lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+        lightbox.addEventListener('touchend', (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
+        }, { passive: true });
 
         // Keyboard: Esc closes, arrows navigate
         document.addEventListener('keydown', (e) => {
@@ -485,6 +506,14 @@ document.addEventListener("DOMContentLoaded", () => {
             btnNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
 
             lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+
+            // Swipe to navigate on touch devices
+            let touchStartX = 0;
+            lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+            lightbox.addEventListener('touchend', (e) => {
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
+            }, { passive: true });
 
             document.addEventListener('keydown', (e) => {
                 if (!lightbox.classList.contains('open')) return;
