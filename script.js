@@ -406,25 +406,66 @@ document.addEventListener("DOMContentLoaded", () => {
         btnPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
         btnNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
 
-        // Click outside to close
-        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+        // Click outside to close (skip if it was a drag)
+        let wasDrag = false;
+        lightbox.addEventListener('click', (e) => { if (!wasDrag && e.target === lightbox) close(); wasDrag = false; });
 
-        // Swipe to navigate on touch devices
-        let touchStartX = 0;
-        lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
-        lightbox.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
-        }, { passive: true });
+        // Reactive drag / swipe navigation (pointer events = touch + mouse unified)
+        const lbContent = lightbox.querySelector('.lightbox-content');
+        let dragStartX = 0, dragDeltaX = 0, isDragging = false, isAnimating = false;
 
-        // Trackpad horizontal swipe (wheel deltaX)
+        const slideTo = (nextIndex, dir) => {
+            isAnimating = true;
+            const exitX  = dir > 0 ? -window.innerWidth : window.innerWidth;
+            const enterX = dir > 0 ?  window.innerWidth : -window.innerWidth;
+            lbContent.style.transition = 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            lbContent.style.transform  = `translateX(${exitX}px)`;
+            setTimeout(() => {
+                lbContent.style.transition = 'none';
+                lbContent.style.transform  = `translateX(${enterX}px)`;
+                show(nextIndex);
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    lbContent.style.transition = 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    lbContent.style.transform  = '';
+                    setTimeout(() => { isAnimating = false; }, 320);
+                }));
+            }, 320);
+        };
+
+        lightbox.addEventListener('pointerdown', (e) => {
+            if (isAnimating || e.target.closest('button')) return;
+            dragStartX = e.clientX; dragDeltaX = 0; isDragging = true;
+            lbContent.style.transition = 'none';
+            lightbox.setPointerCapture(e.pointerId);
+        });
+        lightbox.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            dragDeltaX = e.clientX - dragStartX;
+            lbContent.style.transform = `translateX(${dragDeltaX}px)`;
+        });
+        const endDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            wasDrag = Math.abs(dragDeltaX) > 5;
+            if (Math.abs(dragDeltaX) > window.innerWidth * 0.2) {
+                slideTo(dragDeltaX < 0 ? current + 1 : current - 1, dragDeltaX < 0 ? 1 : -1);
+            } else {
+                lbContent.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                lbContent.style.transform  = '';
+            }
+            dragDeltaX = 0;
+        };
+        lightbox.addEventListener('pointerup',     endDrag);
+        lightbox.addEventListener('pointercancel', endDrag);
+
+        // Trackpad two-finger horizontal swipe (wheel deltaX)
         let wheelTimer = null;
         lightbox.addEventListener('wheel', (e) => {
-            if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return; // ignore vertical scroll
-            if (Math.abs(e.deltaX) < 30) return; // ignore tiny movements
+            if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+            if (Math.abs(e.deltaX) < 30) return;
             clearTimeout(wheelTimer);
             wheelTimer = setTimeout(() => {
-                e.deltaX > 0 ? show(current + 1) : show(current - 1);
+                slideTo(e.deltaX > 0 ? current + 1 : current - 1, e.deltaX > 0 ? 1 : -1);
             }, 50);
         }, { passive: true });
 
@@ -516,24 +557,66 @@ document.addEventListener("DOMContentLoaded", () => {
             btnPrev.addEventListener('click',  (e) => { e.stopPropagation(); show(current - 1); });
             btnNext.addEventListener('click',  (e) => { e.stopPropagation(); show(current + 1); });
 
-            lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+            // Click outside to close (skip if it was a drag)
+            let wasDrag = false;
+            lightbox.addEventListener('click', (e) => { if (!wasDrag && e.target === lightbox) close(); wasDrag = false; });
 
-            // Swipe to navigate on touch devices
-            let touchStartX = 0;
-            lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
-            lightbox.addEventListener('touchend', (e) => {
-                const dx = e.changedTouches[0].clientX - touchStartX;
-                if (Math.abs(dx) > 40) dx < 0 ? show(current + 1) : show(current - 1);
-            }, { passive: true });
+            // Reactive drag / swipe navigation
+            const lbContent = lightbox.querySelector('.lightbox-content');
+            let dragStartX = 0, dragDeltaX = 0, isDragging = false, isAnimating = false;
 
-            // Trackpad horizontal swipe (wheel deltaX)
+            const slideTo = (nextIndex, dir) => {
+                isAnimating = true;
+                const exitX  = dir > 0 ? -window.innerWidth : window.innerWidth;
+                const enterX = dir > 0 ?  window.innerWidth : -window.innerWidth;
+                lbContent.style.transition = 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                lbContent.style.transform  = `translateX(${exitX}px)`;
+                setTimeout(() => {
+                    lbContent.style.transition = 'none';
+                    lbContent.style.transform  = `translateX(${enterX}px)`;
+                    show(nextIndex);
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        lbContent.style.transition = 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        lbContent.style.transform  = '';
+                        setTimeout(() => { isAnimating = false; }, 320);
+                    }));
+                }, 320);
+            };
+
+            lightbox.addEventListener('pointerdown', (e) => {
+                if (isAnimating || e.target.closest('button')) return;
+                dragStartX = e.clientX; dragDeltaX = 0; isDragging = true;
+                lbContent.style.transition = 'none';
+                lightbox.setPointerCapture(e.pointerId);
+            });
+            lightbox.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                dragDeltaX = e.clientX - dragStartX;
+                lbContent.style.transform = `translateX(${dragDeltaX}px)`;
+            });
+            const endDrag = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                wasDrag = Math.abs(dragDeltaX) > 5;
+                if (Math.abs(dragDeltaX) > window.innerWidth * 0.2) {
+                    slideTo(dragDeltaX < 0 ? current + 1 : current - 1, dragDeltaX < 0 ? 1 : -1);
+                } else {
+                    lbContent.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    lbContent.style.transform  = '';
+                }
+                dragDeltaX = 0;
+            };
+            lightbox.addEventListener('pointerup',     endDrag);
+            lightbox.addEventListener('pointercancel', endDrag);
+
+            // Trackpad two-finger horizontal swipe
             let wheelTimer = null;
             lightbox.addEventListener('wheel', (e) => {
-                if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return; // ignore vertical scroll
-                if (Math.abs(e.deltaX) < 30) return; // ignore tiny movements
+                if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+                if (Math.abs(e.deltaX) < 30) return;
                 clearTimeout(wheelTimer);
                 wheelTimer = setTimeout(() => {
-                    e.deltaX > 0 ? show(current + 1) : show(current - 1);
+                    slideTo(e.deltaX > 0 ? current + 1 : current - 1, e.deltaX > 0 ? 1 : -1);
                 }, 50);
             }, { passive: true });
 
