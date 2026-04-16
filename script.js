@@ -355,7 +355,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 lightboxVid.src = '';
                 lightboxVid.style.display = 'none';
                 lightboxImg.style.display = 'block';
-                lightboxImg.src = img.src;
+                // Use currentSrc (the format the browser already loaded — WebP if supported)
+                // so the lightbox re-uses the cached version rather than fetching the JPG fallback.
+                const bestSrc = img.currentSrc || img.src;
+                if (lightboxImg.src !== bestSrc) {
+                    lightbox.classList.add('loading');
+                    lightboxImg.src = bestSrc;
+                    lightboxImg.onload = () => lightbox.classList.remove('loading');
+                    lightboxImg.onerror = () => lightbox.classList.remove('loading');
+                }
                 lightboxImg.alt = img.alt;
             }
 
@@ -438,7 +446,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     lightboxVid.src = '';
                     lightboxVid.style.display = 'none';
                     lightboxImg.style.display = 'block';
-                    lightboxImg.src = img.src;
+                    // Use currentSrc so the browser re-uses its cached WebP rather than re-fetching the JPG.
+                    const bestSrc = img.currentSrc || img.src;
+                    if (lightboxImg.src !== bestSrc) {
+                        lightbox.classList.add('loading');
+                        lightboxImg.src = bestSrc;
+                        lightboxImg.onload = () => lightbox.classList.remove('loading');
+                        lightboxImg.onerror = () => lightbox.classList.remove('loading');
+                    }
                     lightboxImg.alt = img.alt;
                     lightboxCap.textContent = img.alt || '';
                 }

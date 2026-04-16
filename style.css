@@ -879,6 +879,15 @@ header.top-nav {
   display: flex;
 }
 
+/* Subtle pulse while the full-res image is fetching */
+.lightbox.loading .lightbox-content img {
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+.lightbox-content img {
+  transition: opacity 0.2s ease;
+}
+
 .lightbox-content {
   display: flex;
   flex-direction: column;
