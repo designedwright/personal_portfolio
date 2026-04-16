@@ -274,7 +274,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!targets.length) return;
 
         // Replace each paragraph's text with character-wrapped spans
+        // Skip paragraphs that contain child elements (e.g. links) — textContent would destroy them
         targets.forEach(p => {
+            if (p.children.length > 0) return;
             const original = p.textContent;
             p.textContent = '';
 
