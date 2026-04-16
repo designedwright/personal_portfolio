@@ -671,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
     links.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && !link.hasAttribute('download')) {
+            if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && !link.hasAttribute('download') && link.getAttribute('target') !== '_blank') {
                 e.preventDefault();
                 document.body.classList.remove('page-loaded');
                 document.body.classList.add('page-transitioning');
